@@ -18,11 +18,34 @@ type Ring struct {
 // search will find the index of the node that is responsible for the range that
 // includes the hashed value of key.
 func (r *Ring) search(key string) int {
-    /////////////////////////
-    // YOUR CODE GOES HERE //
-    /////////////////////////
+    var (
+        keyHash         uint32
+        nodeHash        uint32
+        bestDistance    uint32
+        distance        uint32  
+        index           int
+        )
 
-    return 0
+    keyHash = hashId(key)
+    bestDistance = uint32(1001)
+
+    for id, node := range r.Nodes {
+        nodeHash = hashId(node.Id)
+
+        if nodeHash > keyHash {
+            distance = nodeHash - keyHash
+
+        } else {
+            distance = nodeHash + uint32(1000) - keyHash
+        }
+
+        if distance < bestDistance {
+                index = id
+                bestDistance = distance
+        }
+    }
+
+    return index
 }
 
 // NewRing will create a new Ring object and return a pointer to it.
